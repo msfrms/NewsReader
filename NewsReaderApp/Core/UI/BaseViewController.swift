@@ -7,74 +7,25 @@ import Foundation
 import AsyncDisplayKit
 import SUtils
 
-class BaseViewController: ASViewController<ASDisplayNode> {
+public protocol LifeCycle {
+    func didLoad()
+}
 
-    struct Props {
-        let didLoad: Command
-        let willAppear: Command
-        let didAppear: Command
-        let willDisappear: Command
-        let didDisappear: Command
+public class BaseViewController: ASViewController<ASDisplayNode> {
 
-        init(didLoad: Command,
-             willAppear: Command,
-             didAppear: Command,
-             willDisappear: Command,
-             didDisappear: Command) {
-            self.didLoad = didLoad
-            self.willAppear = willAppear
-            self.didAppear = didAppear
-            self.willDisappear = willDisappear
-            self.didDisappear = didDisappear
-        }
+    private let presenter: LifeCycle
 
-        init() { self.init(didLoad: .nop, willAppear: .nop, didAppear: .nop, willDisappear: .nop, didDisappear: .nop) }
-    }
-
-    var props: Props = Props()
-
-    convenience init(node: ASDisplayNode, props: Props) {
-        self.init(node: node)
-        self.props = props
-    }
-
-    override init(node: ASDisplayNode) {
+    public init(node: ASDisplayNode, presenter: LifeCycle) {
+        self.presenter = presenter
         super.init(node: node)
-        self.props = Props()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.props = Props()
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
-        self.props.didLoad.execute()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.props.willAppear.execute()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.props.didAppear.execute()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.props.willDisappear.execute()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.props.didDisappear.execute()
+        presenter.didLoad()
     }
 }

@@ -8,17 +8,24 @@ import ServiceSwift
 import ConcurrentSwift
 import SUtils
 
-extension String: Swift.Error {}
+public typealias NewsID = String
 
 struct NewsDetailResponse: Decodable {
     let root: News
 }
 
-class NewsDetailServiceBuilder {
-    func build(_ id: String) -> Future<News> {
+public class NewsDetailService: Service<(), News> {
+
+    private let newsID: NewsID
+
+    public init(newsID: NewsID) {
+        self.newsID = newsID
+    }
+
+    public override func apply(request: Void) -> Future<News> {
         return TransformJsonTo<NewsDetailResponse>()
                 .andThen(NetworkDataService())
-                .apply(request: URLRequest(url: URL(string: "https://meduza.io/api/v3/" + id)!))
+                .apply(request: URLRequest(url: URL(string: "https://meduza.io/api/v3/" + newsID)!))
                 .map { $0.root }
     }
 }

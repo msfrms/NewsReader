@@ -9,110 +9,85 @@ import AsyncDisplayKit
 import ADKUtils
 import SUtils
 
-class NewsNode: BaseCellNode {
-    struct Styles {
+public class NewsNode: ASDisplayNode, Renderer {
+
+    public struct Styles {
+        let image: ImageNode.Styles
         let imageHeight: CGFloat
-        let shouldShadow: Bool
         let insets: UIEdgeInsets
-
-        init(imageHeight: CGFloat, shouldShadow: Bool, insets: UIEdgeInsets) {
-            self.imageHeight = imageHeight
-            self.shouldShadow = shouldShadow
-            self.insets = insets
-        }
-
-        init() { self.init(imageHeight: 190, shouldShadow: true, insets: UIEdgeInsets(top: 15, left: 15, bottom: 5, right: 15)) }
-    }
-
-    enum Action {
-        case short
-        case full
-    }
-
-    struct Props: Selectable {
-        let imageURL: URL?
-        let title: NSAttributedString?
-        let detail: NSAttributedString
-        let tag: NSAttributedString
-        private(set) var onSelected: Command?
-
-        init(detail: NSAttributedString, tag: NSAttributedString, imageURL: URL?, title: NSAttributedString?, onSelected: Command? = nil) {
-            self.imageURL = imageURL
-            self.title = title
-            self.detail = detail
-            self.tag = tag
-            self.onSelected = onSelected
-        }
-
-        init() { self.init(detail: .empty, tag: .empty, imageURL: nil, title: nil) }
-    }
-
-    private var props: Props = Props()
-    private var background: ASDisplayNode = ASDisplayNode().stretch
-    private var image = ASNetworkImageNode().stretch.preferred(height: 190)
-    private var title = ASTextNode()
-    private var tag = ASTextNode()
-    private var detail = ASTextNode()
-    private var action: Action = .full
-    private var styles = Styles()
-
-    convenience init(props: Props) {
-        self.init()
-        self.props = props
-    }
-
-    convenience init(props: Props, styles: Styles) {
-        self.init(props: props)
-        self.styles = styles
+        let shadow: CommandWith<ASDisplayNode>
+        let title: AttributeStyle
+        let detail: AttributeStyle
+        let tag: AttributeStyle
+        let publishDate: AttributeStyle
     }
     
-    override func didLoad() {
+    public struct ViewModel {
+        let image: ImageNode.ViewModel
+        let title: String
+        let detail: String?
+        let tag: String
+        let publishDate: String
+        let onTap: Command?
+    }
+
+    private let background: ASDisplayNode = ASDisplayNode().stretch
+    private let image: ImageNode
+    private let title = ASTextNode()
+    private let tag = ASTextNode()
+    private let detail = ASTextNode()
+    private let styles: Styles
+    private var viewModel: ViewModel?
+
+    public init(styles: Styles) {
+        self.styles = styles
+        image = ImageNode(styles: styles.image)
+        super.init()
+        self.automaticallyManagesSubnodes = true
+    }
+
+    public override func didLoad() {
         super.didLoad()
 
-        self.background.backgroundColor = .white
+        styles.shadow.execute(value: background)
 
-        if self.styles.shouldShadow {
-            self.background.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
-            self.background.layer.shadowOffset = CGSize(width: 0, height: 3)
-            self.background.layer.shadowRadius = 3
-            self.background.layer.shadowOpacity = 0.1
-            self.background.layer.masksToBounds = false
-        }
-
-        self.image.backgroundColor = UIColor(rgb: 0xC7C7CD)
-        self.image.url = self.props.imageURL
-        let _ = self.image.preferred(height: self.styles.imageHeight)
-
-        self.title.attributedText = self.props.title
-        self.tag.attributedText = self.props.tag
-        self.detail.attributedText = self.props.detail
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        view.addGestureRecognizer(tap)
     }
 
-    func dispatch(action: Action) {
-        self.action = action
+    @objc private func didTap() {
+        viewModel?.onTap?.execute()
     }
 
-    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+    public func render(viewModel: ViewModel) {
+        image.render(viewModel: viewModel.image)
+        title.attributedText = viewModel.title.with(style: styles.title)
+        tag.attributedText = viewModel.tag.with(style: styles.tag) + " \(viewModel.publishDate)".with(style: styles.publishDate)
+        detail.attributedText = viewModel.detail.map { $0.with(style: styles.detail) }
+        self.viewModel = viewModel
+    }
 
-        var nodes: [ASLayoutElement] = []
-        nodes.append(self.image)
-        nodes.append(self.title.insets(UIEdgeInsets(top: 13, left: 20, bottom: 0, right: 20)))
+    public override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
 
-        switch self.action {
-        case .full:
-            nodes.append(self.tag.insets(UIEdgeInsets(top: 8, left: 20, bottom: 0, right: 20)))
-            nodes.append(self.detail.insets(UIEdgeInsets(top: 8, left: 20, bottom: 10, right: 20)))
-        case .short:
-            nodes.append(self.tag.insets(UIEdgeInsets(top: 8, left: 20, bottom: 10, right: 20)))
-        }
+        let detailLine: ASLayoutElement? = {
+            guard detail.attributedText != nil else { return nil }
+            return detail.insets(UIEdgeInsets(top: 8, left: 10, bottom: 10, right: 10))
+        }()
+
+        let nodes: [ASLayoutElement?] = [
+            image.preferred(height: styles.imageHeight).stretch,
+            title.insets(UIEdgeInsets(top: 13, left: 10, bottom: 0, right: 10)),
+            tag.insets(UIEdgeInsets(top: 8, left: 10, bottom: 0, right: 10)),
+            detailLine
+        ]
 
         let contentLayout = ASStackLayoutSpec(
                 direction: .vertical,
                 spacing: 0,
                 justifyContent: .start,
                 alignItems: .start,
-                children: nodes)
+                children: nodes.compactMap { $0 })
 
-        return ASBackgroundLayoutSpec(child: contentLayout, background: self.background).insets(self.styles.insets)
+        return ASBackgroundLayoutSpec(child: contentLayout, background: background).insets(self.styles.insets)
     }
 }

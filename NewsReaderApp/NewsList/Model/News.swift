@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct News {
+public struct News {
     let id: String
     let title: String
     let detail: String

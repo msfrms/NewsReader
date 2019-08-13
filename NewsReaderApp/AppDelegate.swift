@@ -30,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .build()
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = UINavigationController(rootViewController: NewsListBuilder().build())
+
+        self.window?.rootViewController = UINavigationController(rootViewController: NewsListFactory().create())
         self.window?.makeKeyAndVisible()
         
         return true
