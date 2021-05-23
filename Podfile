@@ -11,10 +11,9 @@ target 'NewsReaderApp' do
   inhibit_all_warnings! 
 
   # Pods for NewsReaderApp
-  pod 'Texture', '~> 2.6'
-  pod 'ServiceSwift', '~> 0.1'
+  pod 'Texture', '~> 3.0.0'
   pod 'AttributeStyle', '~> 0.1'
-  pod 'ADKUtils', '~> 0.1'
+  pod 'ADKUtils', :git => 'https://github.com/msfrms/ADKUtils.git', :branch => 'master'
 
   target 'NewsReaderAppTests' do
     inherit! :search_paths
