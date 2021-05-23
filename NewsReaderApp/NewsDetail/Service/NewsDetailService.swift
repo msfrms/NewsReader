@@ -4,8 +4,6 @@
 //
 
 import Foundation
-import ServiceSwift
-import ConcurrentSwift
 import SUtils
 
 public typealias NewsID = String
@@ -14,7 +12,11 @@ struct NewsDetailResponse: Decodable {
     let root: News
 }
 
-public class NewsDetailService: Service<(), News> {
+public protocol NewsDetailService {
+    func fetch(callback: CommandWith<Result<News, Error>>)
+}
+
+public class NewsDetailServiceImpl: NewsDetailService {
 
     private let newsID: NewsID
 
@@ -22,10 +24,22 @@ public class NewsDetailService: Service<(), News> {
         self.newsID = newsID
     }
 
-    public override func apply(request: Void) -> Future<News> {
-        return TransformJsonTo<NewsDetailResponse>()
-                .andThen(NetworkDataService())
-                .apply(request: URLRequest(url: URL(string: "https://meduza.io/api/v3/" + newsID)!))
-                .map { $0.root }
+    public func fetch(callback: CommandWith<Result<News, Error>>) {
+        let request = URLRequest(url: URL(string: "https://meduza.io/api/v3/" + newsID)!)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            switch (response, data, error) {
+            case (_, .some(let data), _):
+                let response = try? JSONDecoder().decode(NewsDetailResponse.self, from: data)
+                guard let news = response?.root else {
+                    return
+                }
+                callback.execute(value: .success(news))
+            
+            default:
+                callback.execute(value: .failure(error!))
+            }
+        }
+
+        task.resume()
     }
 }

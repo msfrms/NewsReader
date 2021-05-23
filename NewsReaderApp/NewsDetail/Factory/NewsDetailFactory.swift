@@ -9,7 +9,7 @@ public class NewsDetailFactory {
 
     public func create(with newsID: String) -> UIViewController {
         let detailNode = NewsDetailNode(styles: .classic)
-        let newsDetailService = NewsDetailService(newsID: newsID)
+        let newsDetailService = NewsDetailServiceImpl(newsID: newsID)
         let router = SafariBrowserRouter()
         let presenter = NewsDetailPresenter(
                 detailView: detailNode,
