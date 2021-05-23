@@ -50,10 +50,10 @@
 
 /* Begin PBXFileReference section */
 		0028965DE8C0976F6C67E376 /* Pods_NewsReaderApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewsReaderApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		06F0744BA0AF1C0103206019 /* Pods-NewsReaderApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewsReaderApp/Pods-NewsReaderApp.debug.xcconfig"; sourceTree = "<group>"; };
-		26DA8145FCAD4E4B008063B8 /* Pods-NewsReaderAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewsReaderAppTests/Pods-NewsReaderAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3055DF3D65F638DCDCABEA66 /* Pods-NewsReaderApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewsReaderApp/Pods-NewsReaderApp.release.xcconfig"; sourceTree = "<group>"; };
-		CBABAF9C627C2FFB842DA6CA /* Pods-NewsReaderAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewsReaderAppTests/Pods-NewsReaderAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		4126F7B694197A4BA7B2222C /* Pods-NewsReaderApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderApp.release.xcconfig"; path = "Target Support Files/Pods-NewsReaderApp/Pods-NewsReaderApp.release.xcconfig"; sourceTree = "<group>"; };
+		536C50C3EAAF601EE0410C97 /* Pods-NewsReaderAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderAppTests.debug.xcconfig"; path = "Target Support Files/Pods-NewsReaderAppTests/Pods-NewsReaderAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5BCA1DD538BA1B7F4D52A0E6 /* Pods-NewsReaderAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderAppTests.release.xcconfig"; path = "Target Support Files/Pods-NewsReaderAppTests/Pods-NewsReaderAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		831F659858DC501676043AD0 /* Pods-NewsReaderApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsReaderApp.debug.xcconfig"; path = "Target Support Files/Pods-NewsReaderApp/Pods-NewsReaderApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D10B989198FF983E972A617F /* Pods_NewsReaderAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewsReaderAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47C6121206EB49300464964 /* NewsReaderApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsReaderApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47C6124206EB49300464964 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,15 +117,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C3FC5213FE5FD651DD80D59A /* Pods */ = {
+		91CFB1D02C47A237E4D9CA5D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				06F0744BA0AF1C0103206019 /* Pods-NewsReaderApp.debug.xcconfig */,
-				3055DF3D65F638DCDCABEA66 /* Pods-NewsReaderApp.release.xcconfig */,
-				26DA8145FCAD4E4B008063B8 /* Pods-NewsReaderAppTests.debug.xcconfig */,
-				CBABAF9C627C2FFB842DA6CA /* Pods-NewsReaderAppTests.release.xcconfig */,
+				831F659858DC501676043AD0 /* Pods-NewsReaderApp.debug.xcconfig */,
+				4126F7B694197A4BA7B2222C /* Pods-NewsReaderApp.release.xcconfig */,
+				536C50C3EAAF601EE0410C97 /* Pods-NewsReaderAppTests.debug.xcconfig */,
+				5BCA1DD538BA1B7F4D52A0E6 /* Pods-NewsReaderAppTests.release.xcconfig */,
 			);
-			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		E47C6118206EB49300464964 = {
@@ -134,8 +134,8 @@
 				E47C6123206EB49300464964 /* NewsReaderApp */,
 				E47C6138206EB49400464964 /* NewsReaderAppTests */,
 				E47C6122206EB49300464964 /* Products */,
-				C3FC5213FE5FD651DD80D59A /* Pods */,
 				7ACF4E0190326A290CDD5185 /* Frameworks */,
+				91CFB1D02C47A237E4D9CA5D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -481,24 +481,20 @@
 				"${PODS_ROOT}/Target Support Files/Pods-NewsReaderApp/Pods-NewsReaderApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ADKUtils/ADKUtils.framework",
 				"${BUILT_PRODUCTS_DIR}/AttributeStyle/AttributeStyle.framework",
-				"${BUILT_PRODUCTS_DIR}/ConcurrentSwift/ConcurrentSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
 				"${BUILT_PRODUCTS_DIR}/PINRemoteImage/PINRemoteImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SUtils/SUtils.framework",
-				"${BUILT_PRODUCTS_DIR}/ServiceSwift/ServiceSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Texture/AsyncDisplayKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ADKUtils.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AttributeStyle.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ConcurrentSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINRemoteImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SUtils.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ServiceSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AsyncDisplayKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -679,7 +675,7 @@
 		};
 		E47C613F206EB49400464964 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06F0744BA0AF1C0103206019 /* Pods-NewsReaderApp.debug.xcconfig */;
+			baseConfigurationReference = 831F659858DC501676043AD0 /* Pods-NewsReaderApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -696,7 +692,7 @@
 		};
 		E47C6140206EB49400464964 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3055DF3D65F638DCDCABEA66 /* Pods-NewsReaderApp.release.xcconfig */;
+			baseConfigurationReference = 4126F7B694197A4BA7B2222C /* Pods-NewsReaderApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -713,7 +709,7 @@
 		};
 		E47C6142206EB49400464964 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26DA8145FCAD4E4B008063B8 /* Pods-NewsReaderAppTests.debug.xcconfig */;
+			baseConfigurationReference = 536C50C3EAAF601EE0410C97 /* Pods-NewsReaderAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -731,7 +727,7 @@
 		};
 		E47C6143206EB49400464964 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBABAF9C627C2FFB842DA6CA /* Pods-NewsReaderAppTests.release.xcconfig */;
+			baseConfigurationReference = 5BCA1DD538BA1B7F4D52A0E6 /* Pods-NewsReaderAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
