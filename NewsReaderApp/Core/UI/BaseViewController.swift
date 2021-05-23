@@ -11,7 +11,7 @@ public protocol LifeCycle {
     func didLoad()
 }
 
-public class BaseViewController: ASViewController<ASDisplayNode> {
+public class BaseViewController: ASDKViewController<ASDisplayNode> {
 
     private let presenter: LifeCycle
 
