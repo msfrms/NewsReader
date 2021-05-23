@@ -12,7 +12,7 @@ public class NewsListFactory {
         let router = NewsRouter()
         let newsListPresenter = NewsListPresenter(
                 listView: listNews,
-                newsListService: NewsListService(),
+                newsListService: NewsListServiceImpl(),
                 router: router)
         let viewController = BaseViewController(node: listNews, presenter: newsListPresenter)
         viewController.title = "НОВОСТИ"

@@ -4,8 +4,7 @@
 //
 
 import Foundation
-import ServiceSwift
-import ConcurrentSwift
+import SUtils
 
 struct NewsListResponse: Decodable {
 
@@ -21,12 +20,28 @@ struct NewsListResponse: Decodable {
     }
 }
 
-public class NewsListService: Service<(), [News]> {
+public protocol NewsListService {
+    func fetch(callback: CommandWith<Result<[News], Error>>)
+}
 
-    public override func apply(request: ()) -> Future<[News]> {
-        return TransformJsonTo<NewsListResponse>()
-                .andThen(NetworkDataService())
-                .apply(request: URLRequest(url: URL(string: "https://meduza.io/api/v3/search?chrono=articles&locale=ru&page=0&per_page=24")!))
-                .map { $0.documents.map { $0.value } }
+public class NewsListServiceImpl: NewsListService {
+
+    public func fetch(callback: CommandWith<Result<[News], Error>>) {
+        let request = URLRequest(url: URL(string: "https://meduza.io/api/v3/search?chrono=articles&locale=ru&page=0&per_page=24")!)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            switch (response, data, error) {
+            case (_, .some(let data), _):
+                let response = try? JSONDecoder().decode(NewsListResponse.self, from: data)
+                guard let news = (response.map { $0.documents.values }) else {
+                    return
+                }
+                callback.execute(value: .success([News](news)))
+            
+            default:
+                callback.execute(value: .failure(error!))
+            }
+        }
+
+        task.resume()
     }
 }
